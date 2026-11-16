@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💜</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pink:#ff6ec7;--purple:#b388ff;--white:#fff}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#140826;color:#fff;overflow-x:hidden;min-height:100vh}
+body.shake{animation:shake .5s}
+@keyframes shake{
+0%,100%{transform:translate(0,0)}
+20%{transform:translate(-12px,8px)}
+40%{transform:translate(12px,-8px)}
+60%{transform:translate(-10px,-6px)}
+80%{transform:translate(10px,6px)}
+}
+body::before{content:"";position:fixed;inset:0;background:linear-gradient(120deg,#2b0f5c,#7b2ff7,#ff6ec7,#2b0f5c);background-size:300% 300%;animation:bgShift 12s ease infinite;z-index:-2}
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.stage{position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding-top:6vh}
+
+.chips{position:absolute;inset:0;pointer-events:none;z-index:0}
+.chip{position:absolute;font-weight:900;letter-spacing:3px;color:#fff;opacity:.35;text-shadow:0 0 12px var(--pink);animation:float 6s ease-in-out infinite;white-space:nowrap}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-25px) rotate(4deg)}}
+
+.particle{position:fixed;bottom:-60px;pointer-events:none;z-index:-1;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+
+.wordmark{position:relative;z-index:2;display:flex;gap:10px;margin-top:4vh}
+.wordmark span{display:inline-block;font-size:clamp(3.5rem,11vw,7rem);font-weight:900;color:#fff;text-shadow:0 0 20px var(--pink),0 0 40px var(--purple);animation:letter 2s ease-in-out infinite}
+.wordmark span:nth-child(2){animation-delay:.2s}
+.wordmark span:nth-child(3){animation-delay:.4s}
+@keyframes letter{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.1)}}
+
+.tagline{position:relative;z-index:2;margin-top:12px;font-size:clamp(1rem,2.6vw,1.4rem);font-weight:700;background:linear-gradient(90deg,#fff,var(--pink),#fff,var(--purple),#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 3s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+
+.start-area{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;display:flex;flex-direction:column;align-items:center;transition:opacity .5s,transform .5s}
+.start-area.hide{opacity:0;transform:translate(-50%,-150%) scale(.5);pointer-events:none}
+.pointer{font-weight:900;font-size:1.3rem;color:#fff;text-shadow:0 0 10px var(--pink);margin-bottom:8px;animation:bob 1s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+.btn{position:relative;z-index:3;border:none;cursor:pointer;padding:18px 40px;font-size:1.2rem;font-weight:800;color:#fff;border-radius:50px;background:linear-gradient(135deg,#7b2ff7,#ff6ec7);box-shadow:0 0 25px rgba(255,110,199,.7);animation:pulse 1.6s ease-in-out infinite,wiggle 3.5s ease-in-out infinite;transition:transform .2s}
+.btn:hover{transform:scale(1.12)}
+.btn:active{transform:scale(.95)}
+@keyframes pulse{0%,100%{box-shadow:0 0 15px rgba(255,110,199,.6)}50%{box-shadow:0 0 40px rgba(255,110,199,1)}}
+@keyframes wiggle{0%,90%,100%{rotate:0deg}92%{rotate:-6deg}94%{rotate:6deg}96%{rotate:-4deg}98%{rotate:4deg}}
+
+.walker{position:fixed;bottom:2vh;left:10%;width:clamp(130px,20vw,210px);aspect-ratio:1;transform:translateX(-50%);z-index:5;transition:left .8s ease-in-out,bottom .8s ease-in-out}
+.walker-img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:5px solid #fff;box-shadow:0 0 30px var(--pink);display:block}
+.walking .walker-img{animation:hop .35s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+
+.bubble{position:absolute;bottom:calc(100% + 28px);left:50%;transform:translateX(-50%) scale(0);transition:transform .45s cubic-bezier(.34,1.56,.64,1);background:#fff;color:#3b1470;padding:14px 20px;border-radius:24px;font-weight:800;width:max-content;max-width:280px;text-align:center;font-size:1rem;line-height:1.3}
+.bubble::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:12px solid transparent;border-top-color:#fff}
+.bubble.show{transform:translateX(-50%) scale(1)}
+
+.boom-btn{position:fixed;bottom:4vh;left:50%;transform:translateX(-50%) scale(0);z-index:6;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.boom-btn.show{transform:translateX(-50%) scale(1)}
+
+.ring{position:fixed;left:50%;top:50%;width:40px;height:40px;border:4px solid var(--pink);border-radius:50%;transform:translate(-50%,-50%);animation:ringExp 1s ease-out forwards;pointer-events:none;z-index:9}
+@keyframes ringExp{to{width:150vmax;height:150vmax;opacity:0;border-width:1px}}
+
+.burst{position:fixed;left:50%;top:50%;font-size:2rem;pointer-events:none;z-index:9}
+.sparkle{position:fixed;pointer-events:none;z-index:9;font-size:1.2rem;animation:sparkFade .8s ease-out forwards}
+@keyframes sparkFade{to{transform:translateY(-40px) scale(.2);opacity:0}}
+
+.gallery{position:relative;padding:60px 20px 100px;opacity:0;transform:translateY(60px);transition:opacity 1s,transform 1s;max-width:960px;margin:0 auto}
+.gallery.show{opacity:1;transform:none}
+.gallery-title{text-align:center;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:40px;text-shadow:0 0 20px var(--pink);animation:pulseTitle 2s ease-in-out infinite}
+@keyframes pulseTitle{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.photo{width:100%;height:280px;object-fit:cover;border-radius:20px;border:3px solid #fff;box-shadow:0 0 20px rgba(255,110,199,.6);transition:transform .4s}
+.photo:hover{transform:scale(1.06) rotate(-2deg)}
+.gallery.show .photo{animation:pop .7s cubic-bezier(.34,1.56,.64,1) backwards}
+.gallery.show .photo:nth-child(2){animation-delay:.15s}
+.gallery.show .photo:nth-child(3){animation-delay:.3s}
+.gallery.show .photo:nth-child(4){animation-delay:.45s}
+@keyframes pop{0%{transform:scale(0) rotate(-20deg);opacity:0}100%{transform:scale(1);opacity:1}}
+
+.center-msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(92%,470px);background:rgba(20,8,38,.92);padding:26px 30px;border-radius:24px;text-align:center;font-size:clamp(1.1rem,3vw,1.7rem);font-weight:800;line-height:1.4;border:2px solid var(--pink);animation:glow 2s ease-in-out infinite alternate}
+.center-msg .small{display:block;margin-top:10px;font-size:clamp(1.3rem,3.5vw,2rem);color:var(--pink)}
+@keyframes glow{from{box-shadow:0 0 10px var(--pink)}to{box-shadow:0 0 40px var(--pink),0 0 60px var(--purple)}}
+
+.footer{text-align:center;padding-bottom:40px;font-weight:700;opacity:.8;animation:float 4s ease-in-out infinite}
+
+body.gallery-mode .stage,
+body.gallery-mode .walker,
+body.gallery-mode .boom-btn,
+body.gallery-mode .chips,
+body.gallery-mode .particle{display:none !important}
+.center-msg{z-index:5}
+
+@media(max-width:600px){
+.photo{height:180px}
+.center-msg{font-size:1rem;padding:18px}
+.wordmark span{font-size:3.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="chips" id="chips"></div>
+
+<div class="stage" id="stage">
+  <div class="wordmark">
+    <span>B</span><span>T</span><span>S</span>
+  </div>
+  <p class="tagline">ARMYs jamás serán vencidas 💜</p>
+
+  <div class="start-area" id="startArea">
+    <div class="pointer">⬇ Tócame ⬇</div>
+    <button class="btn" id="startBtn">🎵 Tócame 🎵</button>
+  </div>
+
+  <div class="walker" id="walker">
+    <div class="bubble" id="bubble">Somos BTS y Yimmy merece su 20, te queremos 💜</div>
+   
+    <img class="walker-img" src="btes.jpg" alt="">
+  </div>
+
+  <button class="btn boom-btn" id="boomBtn">💜 Presiona si tienes cariño 💜</button>
+</div>
+
+<div class="gallery" id="gallery">
+  <h2 class="gallery-title">💜 MODO HOOLIGAN 💜</h2>
+  <div class="grid">
+    
+    <img class="photo" src="foto1.jpg" alt="">
+    
+    <img class="photo" src="foto2.jpg" alt="">
+    
+    <img class="photo" src="foto3.jpg" alt="">
+    
+    <img class="photo" src="foto4.jpg" alt="">
+    <div class="center-msg">
+      gracias por mucho, perdón por tan poco
+      <span class="small">adiós jefecita 💜</span>
+    </div>
+  </div>
+  <p class="footer">ARMY forever 💜 BTS</p>
+</div>
+
+<audio id="song" loop src="jajaja.mp3"></audio>
+
+<script>
+const audio = document.getElementById('song');
+const walker = document.getElementById('walker');
+const bubble = document.getElementById('bubble');
+const startArea = document.getElementById('startArea');
+const startBtn = document.getElementById('startBtn');
+const boomBtn = document.getElementById('boomBtn');
+const gallery = document.getElementById('gallery');
+const chips = document.getElementById('chips');
+const stage = document.getElementById('stage');
+
+const words = ['BTS','ARMY','DYNAMITE','BUTTER','MIC DROP','IDOL','FIRE','LOVE YOURSELF','PERMISSION TO DANCE','ARMYs jamás serán vencidas','💜','BANGTAN','SERENDIPITY','SPRING DAY'];
+const colors = ['#fff','#ff6ec7','#b388ff','#ffd1f0'];
+const rand = (min,max) => Math.random()*(max-min)+min;
+
+words.forEach((w,i) => {
+  const c = document.createElement('div');
+  c.className = 'chip';
+  c.textContent = w;
+  c.style.left = rand(2,85) + '%';
+  c.style.top = rand(5,90) + '%';
+  c.style.fontSize = rand(0.9,2.2) + 'rem';
+  c.style.color = colors[i % colors.length];
+  c.style.animationDelay = (-rand(0,6)) + 's';
+  chips.appendChild(c);
+});
+
+const emojis = ['💜','💖','✨','⭐','🎶','💫','🦋'];
+for (let i = 0; i < 28; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  p.style.left = rand(0,100) + '%';
+  p.style.fontSize = rand(14,34) + 'px';
+  p.style.animationDuration = rand(7,16) + 's';
+  p.style.animationDelay = (-rand(0,15)) + 's';
+  document.body.appendChild(p);
+}
+
+document.addEventListener('click', e => {
+  for (let i = 0; i < 6; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = ['✨','💜','⭐'][Math.floor(Math.random()*3)];
+    s.style.left = (e.clientX + rand(-20,20)) + 'px';
+    s.style.top = (e.clientY + rand(-20,20)) + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  }
+});
+
+const steps = [
+  {l:'20%', b:'6vh'},
+  {l:'32%', b:'14vh'},
+  {l:'42%', b:'8vh'},
+  {l:'50%', b:'22vh'}
+];
+
+function walk(i) {
+  if (i >= steps.length) {
+    walker.classList.remove('walking');
+    bubble.classList.add('show');
+    setTimeout(() => boomBtn.classList.add('show'), 1200);
+    return;
+  }
+  walker.style.left = steps[i].l;
+  walker.style.bottom = steps[i].b;
+  setTimeout(() => walk(i + 1), 850);
+}
+
+startBtn.addEventListener('click', () => {
+  audio.play().catch(() => {});
+  startArea.classList.add('hide');
+  walker.classList.add('walking');
+  setTimeout(() => walk(0), 300);
+});
+
+boomBtn.addEventListener('click', () => {
+  document.body.classList.add('gallery-mode');
+  document.body.classList.add('shake');
+  setTimeout(() => document.body.classList.remove('shake'), 500);
+
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+
+  const ring = document.createElement('div');
+  ring.className = 'ring';
+  document.body.appendChild(ring);
+  setTimeout(() => ring.remove(), 1000);
+
+  for (let i = 0; i < 40; i++) {
+    const h = document.createElement('div');
+    h.className = 'burst';
+    h.textContent = ['💜','💖','✨','⭐','💫','🩷'][Math.floor(Math.random()*6)];
+    h.style.left = cx + 'px';
+    h.style.top = cy + 'px';
+    document.body.appendChild(h);
+    const a = rand(0, Math.PI*2);
+    const d = rand(150, 480);
+    const x = Math.cos(a) * d;
+    const y = Math.sin(a) * d;
+    h.animate([
+      {transform:'translate(-50%,-50%) scale(.3)', opacity:1},
+      {transform:`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1.4)`, opacity:0}
+    ], {duration: rand(1000,1700), easing:'cubic-bezier(.1,.8,.3,1)'}).onfinish = () => h.remove();
+  }
+
+  setTimeout(() => {
+    gallery.classList.add('show');
+    gallery.scrollIntoView({behavior:'smooth'});
+  }, 900);
+});
+</script>
+
+</body>
+</html>
